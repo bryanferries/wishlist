@@ -3,21 +3,42 @@ package com.bignerdranch.android.travelwishlist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
+//Create an interface
+interface OnListItemClickedListener {
+    fun onListItemClicked(place: Place)
+}
+
 
 //Constructor
-class PlaceRecyclerAdapter(private val places: List<String>):
+class PlaceRecyclerAdapter(private val places: List<Place>,
+                            private val onListItemClickedListener: OnListItemClickedListener):
 
     //subclass of recyclerview
     RecyclerView.Adapter<PlaceRecyclerAdapter.ViewHolder>() {
 
 //sublcass,  using superclass of all the view
-        class ViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
-            fun bind(place: String) {
+        inner class ViewHolder(private val view: View): RecyclerView.ViewHolder(view) {
+            fun bind(place: Place) {
                 val placeNameTextView: TextView = view.findViewById(R.id.place_name)
-                placeNameTextView.text = place
+                placeNameTextView.text = place.name
+
+                val dateCreatedOnTextView: TextView = view.findViewById(R.id.date_place_added)
+
+                val createdOnText = view.context.getString(R.string.created_on, place.formattedDate())
+                dateCreatedOnTextView.text = createdOnText
+
+//Make a val of the map icon
+                val mapIcon: ImageView = view.findViewById(R.id.map_icon)
+
+//Make the onClickListener for the map icon
+                mapIcon.setOnClickListener {
+                    onListItemClickedListener.onListItemClicked(place)
+                }
+
             }
 
     //How many items in list?

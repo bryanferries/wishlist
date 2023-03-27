@@ -1,6 +1,8 @@
 package com.bignerdranch.android.travelwishlist
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
@@ -8,11 +10,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnListItemClickedListener, OnDataChangedListener {
 
     private lateinit var newPlaceEditText: EditText
     private lateinit var addNewPlaceButton: Button
@@ -39,13 +41,17 @@ class MainActivity : AppCompatActivity() {
         val places = placesViewModel.getPlaces()
 
 //Initialize the places recycler adapter,  need a list of places, data will be provided to the adapter
-        placesRecyclerAdapter = PlaceRecyclerAdapter(places)
+        placesRecyclerAdapter = PlaceRecyclerAdapter(places, this)
 
 //Give it a linear layout        //Then reference the activity that hosts the recycler view
         placeListRecyclerView.layoutManager = LinearLayoutManager(this)
 
 //Set the adapter property
         placeListRecyclerView.adapter = placesRecyclerAdapter
+
+        val itemSwipeListener = OnListItemSwipeListener(this)
+        ItemTouchHelper(itemSwipeListener).attachToRecyclerView(placeListRecyclerView)
+
 
 //Connecting the button to the addNewPlace function
         addNewPlaceButton.setOnClickListener {
@@ -63,9 +69,10 @@ class MainActivity : AppCompatActivity() {
         if (name.isEmpty()) {
             Toast.makeText(this, "Enter a place name", Toast.LENGTH_SHORT).show()
         } else {
-
+//Make a val out of the name property of the Place object
+            val newPlace = Place(name)
 //Tells that something was changed
-            val positionAdded = placesViewModel.addNewPlace(name)
+            val positionAdded = placesViewModel.addNewPlace(newPlace)
 
 //If the positionAdded is -1 alert that it's a duplicate
             if (positionAdded == -1) {
@@ -94,5 +101,22 @@ class MainActivity : AppCompatActivity() {
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             imm?.hideSoftInputFromWindow(view.windowToken, 0)
         }
+    }
+
+//Interface function
+    override fun onListItemClicked(place: Place) {
+        Toast.makeText(this, "$place map icon was ckickied", Toast.LENGTH_SHORT).show()
+        val placeLocationUri = Uri.parse("geo:0?q=$place.name")
+        val mapIntent = Intent(Intent.ACTION_VIEW, placeLocationUri)
+    startActivity(mapIntent)
+    }
+
+    override fun onListItemMoved(from: Int, to: Int) {
+        placesViewModel.movePlace(from, to)
+        placesRecyclerAdapter.notifyItemMoved(from, to)
+    }
+
+    override fun onListItemDeleted(position: Int) {
+        TODO("Not yet implemented")
     }
 }

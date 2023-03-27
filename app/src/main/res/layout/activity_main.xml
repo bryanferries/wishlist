@@ -58,16 +58,5 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="@+id/new_place_name" />
 
-<ProgressBar
-    android:id="@+id/loading_places"
-    style="?android:attr/progressBarStyle"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.5"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

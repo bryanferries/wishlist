@@ -10,28 +10,43 @@
 
     <TextView
         android:id="@+id/place_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/small_spacing"
         android:padding="@dimen/medium_spacing"
-        android:text="TextView"
+        android:textColor="@color/dark_grey"
         android:textSize="@dimen/large_text_size"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintEnd_toStartOf="@+id/map_icon"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        tools:text="Place Name" />
 
     <ImageView
-
-
-        android:id="@+id/imageView2"
+        android:id="@+id/map_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/extra_large_spacing"
-        app:tint="@color/dark_gray"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/show_map"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_dialog_map" />
+        app:srcCompat="@android:drawable/ic_dialog_map"
+        app:tint="@color/dark_grey" />
+
+    <TextView
+        android:id="@+id/date_place_added"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/small_spacing"
+        android:layout_marginTop="30dp"
+        android:padding="@dimen/medium_spacing"
+        android:textColor="@color/dark_grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/map_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/place_name"
+        tools:text="11/12/23" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
