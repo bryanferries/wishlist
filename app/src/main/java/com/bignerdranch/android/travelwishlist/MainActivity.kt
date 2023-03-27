@@ -121,9 +121,9 @@ class MainActivity : AppCompatActivity(), OnListItemClickedListener, OnDataChang
         val deletedPlace = placesViewModel.deletePlace(position)
         placesRecyclerAdapter.notifyItemRemoved(position)
 
-        Snackbar.make(findViewById(R.id.wishlist_container), "${deletedPlace.name} DeeeeLeTeD!", Snackbar.LENGTH_SHORT)
-            .setActionTextColor(resources.getColor(R.color.caution_yellow))
-            .setBackgroundTint(resources.getColor(R.color.black))
+        Snackbar.make(findViewById(R.id.wishlist_container), getString(R.string.place_deleted, deletedPlace.name), 5000)
+            .setActionTextColor(resources.getColor(R.color.black))
+            .setBackgroundTint(resources.getColor(R.color.caution_yellow))
             .setAction(getString(R.string.undo)) {              //undo
                 placesViewModel.addNewPlace(deletedPlace, position)
                 placesRecyclerAdapter.notifyItemInserted(position)
