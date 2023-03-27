@@ -6,4 +6,6 @@
     <string name="enter_place_name">Enter place name</string>
     <string name="show_map">show_map</string>
     <string name="created_on">Created on: %1$s</string>
+    <string name="place_deleted">%1$s DeLeTeD!!</string>
+    <string name="undo">U N D O</string>
 </resources>

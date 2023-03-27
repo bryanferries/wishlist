@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity(), OnListItemClickedListener, OnDataChangedListener {
 
@@ -117,6 +118,21 @@ class MainActivity : AppCompatActivity(), OnListItemClickedListener, OnDataChang
     }
 
     override fun onListItemDeleted(position: Int) {
-        TODO("Not yet implemented")
+        val deletedPlace = placesViewModel.deletePlace(position)
+        placesRecyclerAdapter.notifyItemRemoved(position)
+
+        Snackbar.make(findViewById(R.id.wishlist_container), "${deletedPlace.name} DeeeeLeTeD!", Snackbar.LENGTH_SHORT)
+            .setActionTextColor(resources.getColor(R.color.caution_yellow))
+            .setBackgroundTint(resources.getColor(R.color.black))
+            .setAction(getString(R.string.undo)) {              //undo
+                placesViewModel.addNewPlace(deletedPlace, position)
+                placesRecyclerAdapter.notifyItemInserted(position)
+
+            }
+            .show()
     }
+
+
+
+
 }
